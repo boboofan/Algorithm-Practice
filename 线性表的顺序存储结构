@@ -1,0 +1,14 @@
+#define Maxsize 100
+typedef struct{
+  Elemtype data[Maxsize];
+  int length;
+}SqList;
+
+//or
+
+#define InitSize 100
+typedef struct{
+  Elemtype *data;
+  int Maxsize,length;
+}SqList;
+SqList.data=new Elemtype[InitSize];
