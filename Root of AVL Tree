@@ -1,0 +1,169 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+typedef struct Tnode *PtrToTnode;
+struct Tnode {
+	PtrToTnode left, right;
+	int n, height;
+};
+typedef PtrToTnode Tree;
+
+Tree NewTnode()
+{
+	Tree tnode;
+	tnode = new struct Tnode;
+	cin >> tnode->n;
+	tnode->height = 1;
+	tnode->left = tnode->right = NULL;
+	return tnode;
+}
+
+int Max(int a, int b)
+{
+	return (a > b) ? a : b;
+}
+
+void UpdateHeight(Tree t)
+{
+	int l, r;
+
+	if (t->left == NULL)
+		l = 0;
+	else
+		l = t->left->height;
+
+	if (t->right == NULL)
+		r = 0;
+	else
+		r = t->right->height;
+
+	t->height = Max(l, r) + 1;
+}
+
+Tree LeftLeftRotation(Tree t)
+{
+	Tree a, b, c;
+	a = t;
+	b = a->left;
+	c = b->right;
+	a->left = c;
+	b->right = a;
+	UpdateHeight(a);
+	UpdateHeight(b);
+	return b;
+}
+
+Tree RightRightRotation(Tree t)
+{
+	Tree a, b, c;
+	a = t;
+	b = a->right;
+	c = b->left;
+	a->right = c;
+	b->left = a;
+	UpdateHeight(a);
+	UpdateHeight(b);
+	return b;
+}
+
+Tree LeftRightRotation(Tree t)
+{
+	t->left = RightRightRotation(t->left);
+	return LeftLeftRotation(t);
+}
+
+Tree RightLeftRotation(Tree t)
+{
+	t->right = LeftLeftRotation(t->right);
+	return RightRightRotation(t);
+}
+
+int GetDifference(Tree t)
+{
+	int l, r;
+
+	if (t->left == NULL)
+		l = 0;
+	else
+		l = t->left->height;
+
+	if (t->right == NULL)
+		r = 0;
+	else
+		r = t->right->height;
+
+	return (l - r);
+}
+
+Tree Insert(Tree t,Tree tnode)
+{
+	if (tnode->n < t->n)
+	{
+		if (t->left == NULL)
+			t->left = tnode;
+		else
+			t->left = Insert(t->left, tnode);
+
+		t->height++;
+
+		if (GetDifference(t) >= 2)
+		{
+			if (GetDifference(t->left) > 0)
+				t = LeftLeftRotation(t);
+			else
+				t = LeftRightRotation(t);
+
+			UpdateHeight(t);
+		}
+	}
+
+	else if (tnode->n > t->n)
+	{
+		if (t->right == NULL)
+			t->right = tnode;
+		else
+			t->right = Insert(t->right, tnode);
+
+		t->height++;
+
+		if (GetDifference(t) <= -2)
+		{
+			if (GetDifference(t->right) > 0)
+				t = RightLeftRotation(t);
+			else
+				t = RightRightRotation(t);
+
+			UpdateHeight(t);
+		}
+	}
+	return t;
+}
+
+void DestroyTree(Tree t)
+{
+	if (t != NULL)
+	{
+		DestroyTree(t->left);
+		DestroyTree(t->right);
+		delete(t);
+	}
+}
+
+int main()
+{
+	int N;
+	Tree t;
+	cin >> N;
+	t = NewTnode();
+
+	while (N-- > 1)
+	{
+		Tree tnode = NewTnode();
+		t = Insert(t, tnode);
+	}
+
+	cout << t->n << endl;
+
+	return 0;
+}
