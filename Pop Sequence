@@ -1,0 +1,55 @@
+https://pta.patest.cn/pta/test/3512/exam/4/question/62615
+
+//模拟堆栈算法
+#include<iostream>
+#include<stack>
+#include<queue>
+using namespace std;
+
+bool Judge(int M, int N)
+{
+	int i, t;
+	stack <int> s;
+	queue <int> q;
+	for (i = 0; i < N; i++)
+	{
+		cin >> t;
+		q.push(t);
+	}
+
+	i = 1;
+
+	while (!q.empty())
+	{
+		t = q.front();
+		q.pop();
+
+		while (i <= t)
+		{
+			s.push(i++);
+			if (s.size() > M)
+				return false;
+		}
+
+		if (s.top() == t)
+			s.pop();
+		else
+			return false;
+	}
+
+	return true;
+}
+
+int main()
+{
+	int M, N, K;
+	cin >> M >> N >> K;
+	while (K-- > 0)
+	{
+		if (Judge(M, N))
+			cout << "YES" << endl;
+		else
+			cout << "NO" << endl;
+	}
+	return 0;
+}
