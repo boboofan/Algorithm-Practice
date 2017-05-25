@@ -8,17 +8,14 @@ using namespace std;
 
 bool Judge(int M, int N)
 {
-	int i, t;
+	int i = 1, t;
 	stack <int> s;
 	queue <int> q;
-	for (i = 0; i < N; i++)
+	while(N-- > 0)
 	{
 		cin >> t;
 		q.push(t);
 	}
-
-	i = 1;
-
 	while (!q.empty())
 	{
 		t = q.front();
