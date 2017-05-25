@@ -27,17 +27,14 @@ int Max(int a, int b)
 void UpdateHeight(Tree t)
 {
 	int l, r;
-
 	if (t->left == NULL)
 		l = 0;
 	else
 		l = t->left->height;
-
 	if (t->right == NULL)
 		r = 0;
 	else
 		r = t->right->height;
-
 	t->height = Max(l, r) + 1;
 }
 
@@ -82,17 +79,14 @@ Tree RightLeftRotation(Tree t)
 int GetDifference(Tree t)
 {
 	int l, r;
-
 	if (t->left == NULL)
 		l = 0;
 	else
 		l = t->left->height;
-
 	if (t->right == NULL)
 		r = 0;
 	else
 		r = t->right->height;
-
 	return (l - r);
 }
 
@@ -104,36 +98,29 @@ Tree Insert(Tree t,Tree tnode)
 			t->left = tnode;
 		else
 			t->left = Insert(t->left, tnode);
-
 		t->height++;
-
 		if (GetDifference(t) >= 2)
 		{
 			if (GetDifference(t->left) > 0)
 				t = LeftLeftRotation(t);
 			else
 				t = LeftRightRotation(t);
-
 			UpdateHeight(t);
 		}
 	}
-
 	else if (tnode->n > t->n)
 	{
 		if (t->right == NULL)
 			t->right = tnode;
 		else
 			t->right = Insert(t->right, tnode);
-
 		t->height++;
-
 		if (GetDifference(t) <= -2)
 		{
 			if (GetDifference(t->right) > 0)
 				t = RightLeftRotation(t);
 			else
 				t = RightRightRotation(t);
-
 			UpdateHeight(t);
 		}
 	}
