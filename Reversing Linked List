@@ -1,0 +1,81 @@
+https://pta.patest.cn/pta/test/3512/exam/4/question/62614
+
+#include<iostream>
+#include<iomanip>
+#include<stack>
+#include<queue>
+using namespace std;
+
+typedef struct Lnode *PtrToLnode;
+struct Lnode {
+	long num, add, next;
+};
+typedef PtrToLnode List;
+
+long FindAdd(List l, long add, long N)
+{
+	long i;
+	for (i = 0; i < N; i++)
+		if (add == l[i].add)
+			return i;
+}
+
+int main()
+{
+	cout.fill('0');
+	List l;
+	long i, N, K, head;
+	stack<long>s, t;
+	queue<long>q;
+	cin >> head >> N >> K;
+	l = new struct Lnode[N];
+	for (i = 0; i < N; i++)
+		cin >> l[i].add >> l[i].num >> l[i].next;
+
+	while (head != -1)
+	{
+		i = FindAdd(l, head, N);
+		head = l[i].next;
+		s.push(i);
+		if (s.size() >= K)
+		{
+			while (!s.empty())
+			{
+				q.push(s.top());
+				s.pop();
+			}
+		}
+	}
+
+	while (!s.empty())
+	{
+		t.push(s.top());
+		s.pop();
+	}
+
+	if (!q.empty())
+	{
+		while (q.size() > 1)
+		{
+			cout << setw(5) << l[q.front()].add << " " << l[q.front()].num << " ";
+			q.pop();
+			cout << setw(5) << l[q.front()].add << endl;
+		}
+		if (t.empty())
+			cout << setw(5) << l[q.front()].add << " " << l[q.front()].num << " -1" << endl;
+		else
+			cout << setw(5) << l[q.front()].add << " " << l[q.front()].num << " " << setw(5) << l[t.top()].add << endl;
+	}
+
+	if(!t.empty())
+	{
+		while (t.size() > 1)
+		{
+			cout << setw(5) << l[t.top()].add << " " << l[t.top()].num << " " << setw(5) << l[t.top()].next << endl;
+			t.pop();
+		}
+		cout << setw(5) << l[t.top()].add << " " << l[t.top()].num << " -1" << endl;
+	}
+	delete(l);
+	return 0;
+}
