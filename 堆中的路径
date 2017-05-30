@@ -1,0 +1,62 @@
+https://pta.patest.cn/pta/test/3512/exam/4/question/77412
+
+#include<iostream>
+using namespace std;
+
+void Swap(int *heap, int i, int j)
+{
+	int temp;
+	temp = heap[i];
+	heap[i] = heap[j];
+	heap[j] = temp;
+}
+
+void Adjust(int *heap, int i)
+{
+	if (i == 1)
+		return;
+	if (i % 2 == 0)
+	{
+		if (heap[i] < heap[i / 2])
+			Swap(heap, i, i / 2);
+		Adjust(heap, i / 2);
+	}
+	else if (i % 2 == 1)
+	{
+		if (heap[i] < heap[(i - 1) / 2])
+			Swap(heap, i, (i - 1) / 2);
+		Adjust(heap, (i - 1) / 2);
+	}
+}
+
+void Print(int *heap, int i)
+{
+	while (i > 1)
+	{
+		cout << heap[i] << " ";
+		if (i % 2 == 0)
+			i = i / 2;
+		else if (i % 2 == 1)
+			i = (i - 1) / 2;
+	}
+	cout << heap[1] << endl;
+}
+
+int main()
+{
+	int i, N, M, *heap;
+	cin >> N >> M;
+	heap = new int[N+1];
+	for (i = 1; i <= N; i++)
+	{
+		cin >> heap[i];
+		Adjust(heap, i);
+	}
+	while (M-- > 0)
+	{
+		cin >> i;
+		Print(heap, i);
+	}
+	delete(heap);
+	return 0;
+}
