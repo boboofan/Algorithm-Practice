@@ -1,0 +1,112 @@
+https://pta.patest.cn/pta/test/3512/exam/4/question/80570
+
+#include<iostream>
+#include<iomanip>
+#include<queue>
+#define Maxsize 10000
+using namespace std;
+
+typedef struct Gnode *Graph;
+struct Gnode {
+	int v;
+	Graph next;
+};
+
+void Insert(Graph g, int i, int j)
+{
+	Graph vertex = new struct Gnode;
+	vertex->v = j;
+	vertex->next = g[i].next;
+	g[i].next = vertex;
+}
+
+void Reset(Graph g, int N)
+{
+	for (int i = 0; i < N; i++)
+		g[i].v = 0;
+}
+
+int BFS(Graph g, int i, int N)
+{
+	int d, count, v, last, tail;
+	d = 0, count = 1, last = i;
+	queue <int> q;
+	q.push(i);
+	g[i].v = 1;
+	while (!q.empty())
+	{
+		v = q.front();
+		q.pop();
+		Graph t = g[v].next;
+		while (t != NULL)
+		{
+			if (g[t->v].v == 0)
+			{
+				q.push(t->v);
+				g[t->v].v = 1;
+				count++;
+				tail = t->v;
+			}
+			t = t->next;
+		}
+		if (v == last)
+		{
+			d++;
+			last = tail;
+		}
+		if (d == 6)
+			break;
+	}
+	return count;
+}
+
+double GetPrecision(Graph g, int N, int i)
+{
+	double n, p, count;
+	g[i].v = 1;
+	count = ((double)BFS(g, i, N)) * 100;
+	n = (double)N;
+	p = count / n;
+	return p;
+}
+
+void Distroy(Graph g, int N)
+{
+	for (int i = 0; i < N; i++)
+	{
+		Graph v, t;
+		v = g[i].next;
+		while (v != NULL)
+		{
+			t = v;
+			v = v->next;
+			delete(t);
+		}
+	}
+	delete(g);
+}
+
+int main() {
+	int i, j, N, M;
+	cin >> N >> M;
+	Graph g = new struct Gnode[N];
+	for (i = 0; i < N; i++)
+	{
+		g[i].v = 0;
+		g[i].next = NULL;
+	}
+	while (M-- > 0)
+	{
+		cin >> i >> j;
+		i--, j--;
+		Insert(g, i, j), Insert(g, j, i);
+	}
+	for (i = 0; i < N; i++)
+	{
+		double p;
+		p = GetPrecision(g, N, i);
+		cout << i + 1 << ": " << setprecision(2) << fixed << p << "%" << endl;
+		Reset(g, N);
+	}
+	return 0;
+}
