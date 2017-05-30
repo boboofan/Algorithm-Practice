@@ -1,0 +1,85 @@
+https://pta.patest.cn/pta/test/3512/exam/4/question/73455
+
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+int GetLevel(int N)
+{
+	int i, temp;
+	i = 0;
+	temp = 1;
+	while (temp < N)
+		temp += pow(2, ++i);
+	if (temp == N)
+		return ++i;
+	else
+		return -(++i);
+}
+
+void PrintOrder(int *a, int N,int *b,int location)
+{
+	if (N == 0)
+		return;
+	else if (N == 1)
+		b[location] = a[0];
+	else
+	{
+		int level = GetLevel(N);
+		if (level > 0)
+		{
+			b[location] = a[(N - 1) / 2];
+			PrintOrder(a, (N - 1) / 2, b, 2 * location + 1);
+			PrintOrder(a + (N + 1) / 2, (N - 1) / 2, b, 2 * location + 2);
+		}
+		else
+		{
+			level = -level;
+			int left, right, bottom;
+			left = right = pow(2, level - 2) - 1;
+			bottom = N + 1 - pow(2, level - 1);//=pow( 2 , level - 1 ) - ( pow( 2 , level ) - 1 - N )
+
+			if (bottom <= pow(2, level - 2))
+				left += bottom;
+			else
+			{
+				left += pow(2, level - 2);
+				right = right + bottom - pow(2, level - 2);
+			}
+
+			b[location] = a[left];
+			PrintOrder(a, left, b, 2 * location + 1);
+			PrintOrder(a + left + 1, right, b, 2 * location + 2);
+		}
+	}
+}
+
+int main()
+{
+	int i, j, t, N, *a, *b;
+	cin >> N;
+	a = new int[N];
+	b = new int[N];
+	for (i = 0; i < N; i++)
+	{
+		j = i;
+		cin >> t;
+		while (j > 0 && t < a[j - 1])
+		{
+			a[j] = a[j - 1];
+			j--;
+		}
+		a[j] = t;
+	}
+	PrintOrder(a, N, b, 0);
+	for (i = 0; i < N; i++)
+	{
+		if (i < N - 1)
+			cout << b[i] << " ";
+		else
+			cout << b[i] << endl;
+	}
+	delete(a);
+	delete(b);
+	return 0;
+}
