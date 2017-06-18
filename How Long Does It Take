@@ -115,4 +115,5 @@ int main()
 	else
 		cout << result << endl;
 	Distroy(g, N);
+	return 0;
 }
