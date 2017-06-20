@@ -1,0 +1,102 @@
+https://pta.patest.cn/pta/test/15/exam/4/question/894
+
+代码1:23/25
+#include<iostream>
+#include<string>
+#define ElemType int
+using namespace std;
+
+typedef struct Node *Position;
+struct Node {
+	string name;
+	Position next;
+};
+
+typedef struct Lnode *List;
+struct Lnode {
+	int count;
+	Position next;
+};
+
+bool IsGreater(Position p, Position t)
+{
+	if (p != NULL&&t != NULL)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (p->name[i] > t->name[i])
+				return true;
+			else if (p->name[i] < t->name[i])
+				return false;
+		}
+	}
+	return false;
+}
+
+void InsertNode(List l, int i, string name)
+{
+	Position p = new struct Node;
+	p->name = name;
+	if (!IsGreater(p, l[i].next))
+	{
+		p->next = l[i].next;
+		l[i].next = p;
+	}
+	else
+	{
+		Position t = l[i].next;
+		while (t != NULL&&IsGreater(p, t->next))
+			t = t->next;
+		p->next = t->next;
+		t->next = p;
+	}
+}
+
+List Initialize(int N, int K)
+{
+	int i, j;
+	string name;
+	List l = new struct Lnode[K];
+	for (i = 0; i < K; i++)
+	{
+		l[i].count = 0;
+		l[i].next = NULL;
+	}
+	while (N-- > 0)
+	{
+		cin >>name >> i;
+		while (i-- > 0)
+		{
+			cin >> j;
+			InsertNode(l, j - 1, name);
+			l[j - 1].count++;
+		}
+	}
+	return l;
+}
+
+void PrintAndDistroy(List l, int K)
+{
+	for (int i = 0; i < K; i++)
+	{
+		cout << i + 1 << " " << l[i].count << endl;
+		Position p = l[i].next;
+		while (p != NULL)
+		{
+			cout << p->name << endl;
+			Position t = p;
+			p = p->next;
+			delete(t);
+		}
+	}
+	delete(l);
+}
+
+int main()
+{
+	int N, K;
+	cin >> N >> K;
+	List l = Initialize(N, K);
+	PrintAndDistroy(l, K);
+	return 0;
+}
