@@ -1,0 +1,37 @@
+Problem: https://pintia.cn/problem-sets/16/problems/663
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+	int K, head, rear, sum = 0, maxhead = 0, maxrear = 0, maxsum = 0, first, last, flag = 0;
+	cin >> K;
+	for (int i = 0; i < K; i++)
+	{
+		cin >> rear;
+		if (rear < 0)
+			flag++;
+		if (i == 0)
+			head = first = rear;
+		if (i == K - 1)
+			last = rear;
+		if (sum < 0)
+		{
+			sum = 0;
+			head = rear;
+		}
+		sum += rear;
+		if (sum > maxsum)
+		{
+			maxhead = head;
+			maxrear = rear;
+			maxsum = sum;
+		}
+	}
+	if (flag == K)
+		cout << maxsum << " " << first << " " << last << endl;
+	else
+		cout << maxsum << " " << maxhead << " " << maxrear << endl;
+	return 0;
+}
