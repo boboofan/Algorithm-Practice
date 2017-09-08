@@ -1,0 +1,71 @@
+Problem: https://pintia.cn/problem-sets/16/problems/666
+
+#include<iostream>
+#include<queue>
+using namespace std;
+
+typedef struct Tnode *Tree;
+struct Tnode {
+	int flag, left, right;
+};
+
+Tree BuildTree(int N)
+{
+	Tree t = new struct Tnode[N];
+	for (int i = 0; i < N; i++)
+	{
+		char l, r;
+		cin >> l >> r;
+		if (l == '-')
+			t[i].left = -1;
+		else
+		{
+			t[i].left = l - 48;
+			t[t[i].left].flag = 1;
+		}
+		if (r == '-')
+			t[i].right = -1;
+		else
+		{
+			t[i].right = r - 48;
+			t[t[i].right].flag = 1;
+		}
+	}
+	return t;
+}
+
+int FindHead(Tree t, int N)
+{
+	for (int i = 0; i < N; i++)
+		if (t[i].flag != 1)
+			return i;
+}
+
+int main()
+{
+	int N, head;
+	cin >> N;
+	Tree t = BuildTree(N);
+	head = FindHead(t, N);
+	queue <int> q;
+	q.push(head);
+	while (!q.empty())
+	{
+		if (q.size() == 1 && t[q.front()].left == -1 && t[q.front()].right == -1)
+			break;
+		int node = q.front();
+		q.pop();
+		if (t[node].left == -1 && t[node].right == -1)
+			cout << node << " ";
+		else 
+		{
+			if (t[node].left != -1)
+				q.push(t[node].left);
+			if (t[node].right != -1)
+				q.push(t[node].right);
+		}
+	}
+	cout << q.front() << endl;
+	delete(t);
+	return 0;
+}
