@@ -7,8 +7,6 @@ int FindRoot(int *u, int n)
 {
 	if (u[n] < 0)
 		return n;
-	else if (u[u[n]] < 0)
-		return u[n];
 	else
 		return u[n] = FindRoot(u, u[n]);    //带路径压缩的递归
 }
