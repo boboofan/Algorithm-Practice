@@ -1,0 +1,73 @@
+Problem: https://pintia.cn/problem-sets/16/problems/670
+
+#include<iostream>
+using namespace std;
+
+int FindRoot(int *u, int n)
+{
+	if (u[n] < 0)
+		return n;
+	else if (u[u[n]] < 0)
+		return u[n];
+	else
+		return u[n] = FindRoot(u, u[n]);    //带路径压缩的递归
+}
+
+void Connect(int *u)
+{
+	int a, b;
+	cin >> a >> b;
+	int root1 = FindRoot(u, --a), root2 = FindRoot(u, --b);
+	if (root1 != root2)
+	{
+		if (u[root1] < u[root2])
+		{
+			u[root2] = root1;
+			u[root1]--;
+		}
+		else
+		{
+			u[root1] = root2;
+			u[root2]--;
+		}
+	}
+}
+
+void Check(int *u)
+{
+	int a, b;
+	cin >> a >> b;
+	int root1 = FindRoot(u, --a), root2 = FindRoot(u, --b);
+	if (root1 == root2)
+		cout << "yes" << endl;
+	else
+		cout << "no" << endl;
+}
+
+int main()
+{
+	int N, flag = 0;
+	cin >> N;
+	int *u = new int[N];
+	for (int i = 0; i < N; i++)
+		u[i] = -1;
+	char c;
+	cin >> c;
+	while (c != 'S')
+	{
+		if (c == 'I')
+			Connect(u);
+		else if (c == 'C')
+			Check(u);
+		cin >> c;
+	}
+	for (int i = 0; i < N; i++)
+		if (u[i] < 0)
+			flag++;
+	if (flag == 1)
+		cout << "The network is connected." << endl;
+	else
+		cout << "There are " << flag << " components." << endl;
+	delete(u);
+	return 0;
+}
