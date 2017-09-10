@@ -1,0 +1,74 @@
+Problem: https://pintia.cn/problem-sets/16/problems/678
+
+#include<iostream>
+using namespace std;
+
+typedef struct Anode *Array;
+struct Anode {
+	int n, subscript, position;
+	//n是待交换元素，subscript是下标，position是n处于的位置
+};
+
+void Swap(Array a, int z, int t)
+{
+	int temp;
+	temp = a[a[z].n].position;
+	a[a[z].n].position = a[a[t].n].position;
+	a[a[t].n].position = temp;
+	//交换下标
+	temp = a[z].n;
+	a[z].n = a[t].n;
+	a[t].n = temp;
+	//交换元素
+}
+
+static int flag = 1;		//从前向后的有序元素都不会再被交换
+
+int IsOrderly(Array a, int N)
+{
+	if (a[0].position != 0)		//0不处于0下标处
+		return 0;
+	else		//0处于0下标处
+	{
+		for (; flag < N; flag++)
+			if (a[flag].n != a[flag].subscript)
+				return flag;		//返回最近的无序元素的下标
+		return -1;		//已经有序
+	}
+}
+
+void PrintCount(Array a, int N)
+{
+	int count = 0, temp = IsOrderly(a, N);
+	while (temp != -1)
+	{
+		if (temp == 0)
+		{
+			Swap(a, a[0].position, a[a[0].position].position);
+			count++;
+		}
+		else
+		{
+			Swap(a, 0, temp);
+			count++;
+		}
+		temp = IsOrderly(a, N);
+	}
+	cout << count << endl;
+}
+
+int main()
+{
+	int N;
+	cin >> N;
+	Array a = new struct Anode[N];
+	for (int i = 0; i < N; i++)
+	{
+		cin >> a[i].n;
+		a[i].subscript = i;
+		a[a[i].n].position = i;
+	}
+	PrintCount(a, N);
+	delete(a);
+	return 0;
+}
