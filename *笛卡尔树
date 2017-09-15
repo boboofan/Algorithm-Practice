@@ -1,0 +1,97 @@
+Problem: https://pintia.cn/problem-sets/15/problems/858
+
+#include<iostream>
+using namespace std;
+
+typedef struct Tnode *Tree;
+struct Tnode {
+	int k1, k2, left, right;
+};
+
+int GetBigger(int a, int b)
+{
+	return a > b ? a : b;
+}
+
+int GetSmaller(int a, int b)
+{
+	return a < b ? a : b;
+}
+
+int Judge(Tree t, int node, int lflag, int rflag)   //lflag和rflag用来判断k1是否满足小于/大于祖宗节点的值，以判断是否满足二叉搜索树
+{
+	int left = t[node].left, right = t[node].right;
+
+	if (left == -1 && right == -1)    //叶节点
+		return 1;
+
+	if (left != -1 && right != -1)
+	{
+		if (t[node].k1 > t[left].k1&&t[node].k2 < t[left].k2&&t[node].k1 < t[right].k1&&t[node].k2 < t[right].k2)
+		{
+			if (lflag != 0 && t[right].k1 > lflag)
+				return 0;
+			if (rflag != 0 && t[left].k1 < rflag)
+				return 0;
+
+			if (lflag == 0 && rflag == 0)
+				return Judge(t, left, t[node].k1, 0)*Judge(t, right, 0, t[node].k1);
+			else if (lflag != 0 && rflag != 0)
+				return Judge(t, left, GetSmaller(lflag, t[node].k1), rflag)*Judge(t, right, lflag, GetBigger(rflag, t[node].k1));
+			else if (lflag != 0)
+				return Judge(t, left, GetSmaller(lflag, t[node].k1), 0)*Judge(t, right, lflag, t[node].k1);
+			else if (rflag != 0)
+				return Judge(t, left, t[node].k1, rflag)*Judge(t, right, 0, GetBigger(rflag, t[node].k1));
+		}
+	}
+	else if (left != -1)
+	{
+		if (t[node].k1 > t[left].k1&&t[node].k2 < t[left].k2)
+		{
+			if (lflag == 0)
+				return Judge(t, left, t[node].k1, rflag);
+			else
+				return Judge(t, left, GetSmaller(lflag, t[node].k1), rflag);
+		}
+	}
+	else if (right != -1)
+	{
+		if (t[node].k1 < t[right].k1&&t[node].k2 < t[right].k2)
+		{
+			if (rflag == 0)
+				return Judge(t, right, lflag, t[node].k1);
+			else
+				return Judge(t, right, lflag, GetBigger(rflag, t[node].k1));
+		}
+	}
+	return 0;
+}
+
+int main()
+{
+	int i, N;
+	cin >> N;
+	int *flag = new int[N];
+	Tree t = new struct Tnode[N];
+
+	for (i = 0; i < N; i++)
+	{
+		cin >> t[i].k1 >> t[i].k2 >> t[i].left >> t[i].right;
+		if (t[i].left != -1)
+			flag[t[i].left] = 1;
+		if (t[i].right != -1)
+			flag[t[i].right] = 1;
+	}
+
+	for (i = 0; i < N; i++)   //查找根节点
+		if (flag[i] != 1)
+			break;
+
+	if (Judge(t, i, 0, 0))
+		cout << "YES" << endl;
+	else
+		cout << "NO" << endl;
+
+	delete(t), delete(flag);
+	return 0;
+}
