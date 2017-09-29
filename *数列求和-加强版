@@ -1,0 +1,44 @@
+Problem：https://pintia.cn/problem-sets/14/problems/3006
+
+给定某数字A（1≤A≤9）以及非负整数N（0≤N≤100000），求数列之和S=A+AA+AAA+⋯+AA⋯A（N个A）。例如A=1, N=3时，S=1+11+111=123。
+
+输入格式：
+输入数字A与非负整数N。
+
+输出格式：
+输出其N项数列之和S的值。
+
+
+
+思路分析：
+  先考虑用int/long来做，那么S=N*A+(N-1)*10*A+(N-2)*100*A...但对于N最大可以取到100000，S势必会超出long的范围，所以放弃(但对于范围小的N可以使用)。
+  根据计算机组成原理里面学到的加法器结构，可以想到将余数和进位拆分：将当前位的余数保留，进位与下一位的数相加。
+  
+ 
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int main()
+{
+	int A, N, remainder, carry = 0;   //一开始最低位进位是0
+	stack<int>s;    //使用堆栈来保存每一位的余数
+	cin >> A >> N;
+	while (N)
+	{
+		remainder = (N*A + carry) % 10;   //计算余数
+		carry = (N*A + carry) / 10;   //计算进位
+		s.push(remainder);    //将余数保存到堆栈
+		N--;
+	}
+	if (carry)
+		s.push(carry);    //最高位如果有进位也要输出
+	if (s.empty())
+		cout << 0;    //假如没有数据，输出0
+	while (!s.empty())
+	{
+		cout << s.top();
+		s.pop();
+	}
+	return 0;
+}
