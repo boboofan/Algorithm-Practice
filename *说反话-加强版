@@ -1,0 +1,26 @@
+Problem：https://pintia.cn/problem-sets/14/problems/812
+
+使用c++来精简代码
+
+#include<iostream>
+#include<stack>
+#include<string>
+using namespace std;
+
+int main()
+{
+	string c;   //用string来直接读取单词
+	stack<string>s;   //使用堆栈来颠倒顺序
+	while (cin >> c)
+		s.push(c);
+	if (!s.empty())
+	{
+		while (s.size() > 1)
+		{
+			cout << s.top() << " ";
+			s.pop();
+		}
+		cout << s.top() << endl;
+	}
+	return 0;
+}
