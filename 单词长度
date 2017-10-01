@@ -1,0 +1,34 @@
+Problem：https://pintia.cn/problem-sets/14/problems/806
+
+#include<iostream>
+#include<string>
+#include<queue>
+using namespace std;
+
+int main()
+{
+	string word;
+	queue<int>q;
+	while (1)
+	{
+		cin >> word;
+		if (word[word.size() - 1] != '.')
+			q.push(word.size());
+		else
+		{
+			if (word.size() > 1)
+				q.push(word.size() - 1);
+			break;
+		}
+	}
+	if (!q.empty())
+	{
+		while (q.size() > 1)
+		{
+			cout << q.front() << " ";
+			q.pop();
+		}
+		cout << q.front() << endl;
+	}
+	return 0;
+}
