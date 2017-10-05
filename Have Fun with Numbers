@@ -1,0 +1,52 @@
+Problem: https://pintia.cn/problem-sets/17/problems/263
+
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int main()
+{
+	int i, n, N = 0, carry = 0, reminder = 0, num[10], dou[10];
+	char c;
+	stack<int>s1, s2;
+	for (i = 0; i < 10; i++)
+		num[i] = dou[i] = 0;
+	c = cin.get();
+	while (c!=10)
+	{
+		n = c - 48;
+		s1.push(n);
+		num[n]++;
+		c = cin.get();
+	}
+	while (!s1.empty())
+	{
+		n = s1.top();
+		s1.pop();
+		reminder = (2 * n + carry) % 10;
+		carry = (2 * n + carry) / 10;
+		dou[reminder]++;
+		s2.push(reminder);
+	}
+	if (carry != 0)
+	{
+		cout << "No" << endl;
+		s2.push(carry);
+	}
+	else
+	{
+		for (i = 0; i < 10; i++)
+			if (num[i] != dou[i])
+				break;
+		if (i == 10)
+			cout << "Yes" << endl;
+		else
+			cout << "No" << endl;
+	}
+	while (!s2.empty())
+	{
+		cout << s2.top();
+		s2.pop();
+	}
+	return 0;
+}
