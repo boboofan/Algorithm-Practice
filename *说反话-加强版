@@ -1,6 +1,6 @@
 Problem：https://pintia.cn/problem-sets/14/problems/812
 
-使用c++来精简代码
+c++版：
 
 #include<iostream>
 #include<stack>
@@ -8,9 +8,10 @@ Problem：https://pintia.cn/problem-sets/14/problems/812
 using namespace std;
 
 int main()
+//思路：用一个string存储一个单词，然后用堆栈倒序
 {
-	string c;   //用string来直接读取单词
-	stack<string>s;   //使用堆栈来颠倒顺序
+	string c;
+	stack<string>s;
 	while (cin >> c)
 		s.push(c);
 	if (!s.empty())
@@ -24,3 +25,78 @@ int main()
 	}
 	return 0;
 }
+
+
+c语言版：
+
+#include<stdio.h>
+#include<stdlib.h>
+#define Maxsize 500001
+
+typedef struct Snode *PtrToSNode;
+struct Snode {
+	int i;		//头结点的i表示堆栈内元素个数，栈内节点的i表示插入单词的首字母在数组中的位置
+	PtrToSNode next;
+};
+typedef PtrToSNode Stack;
+
+void Push(Stack s, int n)
+{
+	PtrToSNode node = (PtrToSNode)malloc(sizeof(struct Snode));
+	node->i = n;
+	node->next = s->next;
+	s->next = node;
+	s->i++;
+}
+
+int Pop(Stack s)
+{
+	PtrToSNode p = s->next;
+	int t = p->i;
+	s->next = p->next;
+	s->i--;
+	free(p);
+	return t;
+}
+
+void Print(Stack s, char word[])
+{
+	int i = Pop(s);
+	while (word[i] != 32)
+		printf("%c", word[i++]);
+}
+
+int main()
+//思路：用数组来存储读入的数据，每读到一个单词的首字母，就把其位置存入堆栈，之后再按堆栈顺序输出
+{
+	int i = 0, tag = 0;		//tag用来识别是不是单词首字母
+	char c, word[Maxsize];
+	Stack s = (PtrToSNode)malloc(sizeof(struct Snode));
+	s->i = 0, s->next = NULL;
+	scanf("%c", &c);
+	while (c!=10)
+	{
+		if (c == 32)
+			tag = 0;
+		else if (tag == 0)
+		{
+			Push(s, i);
+			tag = 1;
+		}
+		word[i++] = c;
+		scanf("%c", &c);
+	}
+	word[i] = 32;
+	if(s->i!=0)
+	{
+		while (s->i > 1)
+		{
+			Print(s, word);
+			printf(" ");
+		}
+		Print(s, word);
+	}
+	free(s);
+	return 0;
+}
+
