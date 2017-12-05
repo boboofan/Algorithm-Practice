@@ -1,0 +1,75 @@
+Problem:https://pintia.cn/problem-sets/16/problems/667
+
+#include<iostream>
+#include<stack>
+#include<string>
+using namespace std;
+
+int GetPosition(int n, int *in)		//获取根节点在中序序列中的位置
+{
+	int i = 0;
+	while (in[i] != n)
+		i++;
+	return i;
+}
+
+void GetPost(int *pre, int *in, int *post, int head, int rear, int low, int high)		//head是前序的头，rear是后序的尾，low/high是中序的头尾
+{
+	int part1, part2, p = GetPosition(pre[head], in);
+	part1 = p - low;	//左子树长度
+	part2 = high - p;		//右子树长度
+	post[rear] = pre[head];		//根节点在后序的最后
+	if (low < high)
+	{
+		if (part1)
+			GetPost(pre, in, post, head + 1, rear - part2 - 1, low, p - 1);	//左子树
+		if (part2)
+			GetPost(pre, in, post, head + part1 + 1, rear - 1, p + 1, high);	//右子树
+	}
+}
+
+int main()
+{
+	int i, N, *pre, *in, *post, a = 0, b = 0;
+	string operation;
+	stack<int>s;
+	cin >> N;
+	pre = new int[N];
+	in = new int[N];
+	post = new int[N];
+	//初始化
+  
+	for (i = 0; i < 2 * N; i++)
+	{
+		cin >> operation;
+		if (operation == "Push")
+		{
+			cin >> pre[a];
+			s.push(pre[a++]);
+		}
+		else
+		{
+			in[b++] = s.top();
+			s.pop();
+		}
+	}
+	//获取前序，后序
+  
+	GetPost(pre, in, post, 0, N - 1, 0, N - 1);
+	//获取后序
+  
+	for (i = 0; i < N; i++)
+	{
+		if (i == N - 1)
+			cout << post[i] << endl;
+		else
+			cout << post[i] << " ";
+	}
+	//输出
+  
+	delete(pre);
+	delete(in);
+	delete(post);
+	//system("pause");
+	return 0;
+}
