@@ -1,0 +1,165 @@
+Problem:https://pintia.cn/problem-sets/16/problems/676
+
+#include<iostream>
+using namespace std;
+
+void Swap(int *A, int i, int j)
+{
+	int temp = A[i];
+	A[i] = A[j];
+	A[j] = temp;
+}
+
+int IsSame(int *A1, int *A2, int *d, int N)
+{
+	bool flag1 = true, flag2 = true;
+	for (int i = 0; i < N; i++)
+	{
+		if (A1[i] != d[i])
+			flag1 = false;
+		if (A2[i] != d[i])
+			flag2 = false;
+		if (!flag1 && !flag2)
+			return 0;
+	}
+	if (flag1)
+		return 1;
+	else
+		return 2;
+}
+
+void InsertSort(int *A, int i)
+{
+	int t = A[i];
+	while (i > 0)		//一趟插入排序
+	{
+		if (A[i - 1] > t)
+		{
+			A[i] = A[i - 1];
+			i--;
+		}
+		else
+			break;
+	}
+	A[i] = t;
+}
+
+void BuildHeap(int *A, int N)
+{
+	int i, j, parent;
+	for (i = 1; i < N; i++)		//插入法构造最大堆
+	{
+		j = i;
+		parent = (j - 1) / 2;
+		while (parent >= 0)
+		{
+			if (A[j] > A[parent])
+			{
+				Swap(A, j, parent);
+				j = parent;
+				parent = (j - 1) / 2;
+			}
+			else
+				break;
+		}
+	}
+}
+
+void HeapSort(int *A, int len)
+{
+	int p = 0, left = 1, right = 2, child;
+	while (p <= (len - 1) / 2)		//p是非叶节点
+	{
+		if (right > len)
+			child = left;
+		//没有右子树
+
+		else
+			child = (A[left] > A[right]) ? left : right;
+		//选择子树中较大的
+
+		if (A[p] < A[child])
+		{
+			Swap(A, p, child);
+			p = child;
+			left = p * 2 + 1;
+			right = p * 2 + 2;
+		}
+		else
+			break;
+	}
+}
+
+void Print(int *A, int N)
+{
+	for (int i = 0; i < N; i++)
+	{
+		if (i == N - 1)
+			cout << A[i] << endl;
+		else
+			cout << A[i] << " ";
+	}
+}
+
+void Judge(int *init1, int *init2, int *d, int N)		//init1用于插入排序，init2用于堆排序
+{
+	BuildHeap(init2, N);
+
+	for (int i = 0; i < N; i++)
+	{
+		InsertSort(init1, i);		
+		//第i趟插入排序
+
+		Swap(init2, 0, N - i - 1);		//取出大根堆顶元素
+		HeapSort(init2, N - i - 2);		//调整剩下的堆
+		//第i趟堆排序
+
+		int flag = IsSame(init1, init2, d, N);
+		if (flag)
+		{
+			i++;		
+			//用于得出下一趟排序结果
+
+			if (flag == 1)
+			{
+				InsertSort(init1, i);
+				cout << "Insertion Sort" << endl;
+				Print(init1, N);
+				return;
+			}
+			else
+			{
+				Swap(init2, 0, N - i - 1);
+				HeapSort(init2, N - i - 2);
+				cout << "Heap Sort" << endl;
+				Print(init2, N);
+				return;
+			}
+		}
+	}
+}
+
+int main()
+{
+	int *init1, *init2, *d, i, N;
+	cin >> N;
+	init1 = new int[N];
+	init2 = new int[N];
+	d = new int[N];
+
+	for (i = 0; i < N; i++)
+		cin >> init1[i];
+	for (i = 0; i < N; i++)
+		init2[i] = init1[i];
+	for (i = 0; i < N; i++)
+		cin >> d[i];
+
+	Judge(init1, init2, d, N);
+	//进行判断并输出
+	
+	delete(init1);
+	delete(init2);
+	delete(d);
+	system("pause");
+	return 0;
+}
