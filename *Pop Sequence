@@ -51,7 +51,7 @@ int main()
 	return 0;
 }
 
-//逻辑算法
+//逻辑算法（所有在当前元素后面且比当前元素大的元素都应是升序的）
 #include<iostream>
 #include<queue>
 using namespace std;
