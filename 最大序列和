@@ -1,0 +1,30 @@
+Problem：https://www.nowcoder.com/practice/df219d60a7af4171a981ef56bd597f7b?tpId=40&tqId=21353&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+int main()
+{
+	long N;
+	while(cin>>N)
+	{
+		long n,max=0,count=0,minmax=-9999999;
+		while(N--)
+		{
+			cin>>n;
+			count+=n;
+			if(count<0)
+				count=0;
+			if(count>max)
+				max=count;
+			if(n>minmax)
+				minmax=n;
+		}
+		if(max==0)
+			cout<<minmax<<endl;
+		else
+			cout<<max<<endl;
+	}
+	return 0;
+}
