@@ -1,0 +1,112 @@
+Problem：https://www.nowcoder.com/practice/fd972d5d5cf04dd4bb4e5f027d4fc11e?tpId=40&tqId=21357&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<queue>
+#include<vector>
+#define Maxsize 1000
+using namespace std;
+
+queue<int> DtoB(int a[], int N)
+{
+	queue<int>q;
+
+	int i, n, flag = 0, head = 0;
+
+	while (1)
+	{
+		if (head == N - 1 && a[N - 1] == 1)
+		{
+			q.push(1);
+			return q;
+		}
+		//跳出循环条件
+
+
+		if (a[N - 1] % 2 == 1)
+		{
+			q.push(1);
+			a[N - 1]--;
+		}
+		else
+			q.push(0);
+		//被2整除为0，否则为1
+
+
+		for (i = head; i<N; i++)
+		{
+			n = a[i];
+
+			if (flag)
+				n += 10;
+			//上一位余下来的数
+
+
+			if (n % 2 == 1)
+			{
+				flag = 1;
+				n--;
+			}
+			else
+				flag = 0;
+			//不能被2整除时记录
+
+
+			a[i] = n / 2;
+			if (i == head && a[i] == 0)
+				head++;
+			//对当前位除2，如果是首位并且为0，则缩进一位
+		}
+	}
+}
+
+void Print(queue<int>q)
+{
+	int i, n, flag;
+
+	vector<int>v;
+	v.push_back(0);
+
+	while (!q.empty())
+	{
+		for (i = flag = 0; i<v.size(); i++)
+		{
+			n = v[i];
+			n = n * 2 + flag;
+			v[i] = n % 10;
+			flag = n / 10;
+		}
+		if (flag)
+			v.push_back(flag);
+		//逆序存放十进制数，并将其*2
+
+
+		if (q.front())
+		{
+			i = 0;
+			while (v[i] == 9)
+				v[i++] = 0;
+			v[i]++;
+		}
+		//q的front是1则加上1
+
+		q.pop();
+	}
+
+	for (i = v.size() - 1; i >= 0; i--)
+		cout << v[i];
+}
+
+int main()
+{
+	int N = 0, a[Maxsize];
+	char c;
+	
+	while (cin>>c)
+		a[N++] = c - 48;
+
+	queue<int>q = DtoB(a, N);
+
+	Print(q);
+
+	return 0;
+}
