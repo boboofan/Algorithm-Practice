@@ -1,0 +1,16 @@
+Problem：https://www.nowcoder.com/practice/97be22ee50b14cccad2787998ca628c8?tpId=40&tqId=21348&tPage=1&rp=1&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+	long n,count=1;
+	while(cin>>n)
+  {    
+	  while(n>1)
+		  count*=n--;
+	  cout<<count;
+  }
+	return 0;
+}
