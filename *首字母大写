@@ -1,0 +1,23 @@
+Problem：https://www.nowcoder.net/practice/91f9c70e7b6f4c0ab23744055632467a?tpId=40&tqId=21388&tPage=3&rp=3&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<stdio.h>
+#include<string.h>
+
+int main()
+{
+	int i,l;
+	char s[1000];
+
+	gets(s);
+	l=strlen(s);
+	
+	if('a'<=s[0]&&s[0]<='z')
+		s[0]-=32;
+
+	for(i=1;i<l;i++)
+		if((s[i-1]==' '||s[i-1]=='\t'||s[i-1]=='\n'||s[i-1]=='\r')&&('a'<=s[i]&&s[i]<='z'))
+			s[i]-=32;
+
+	puts(s);
+	return 0;
+}
