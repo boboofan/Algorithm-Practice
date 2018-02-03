@@ -1,0 +1,63 @@
+Problem：https://www.nowcoder.com/practice/5632c23d0d654aecbc9315d1720421c1?tpId=40&tqId=21374&tPage=3&rp=3&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<algorithm>
+#include<string>
+#define Maxsize 720
+using namespace std;
+
+static int N;
+
+bool Cmp(string a,string b)
+{
+	for(int i=0;i<a.size();i++)
+	{	
+		if(a[i]<b[i])
+			return true;
+		else if(a[i]>b[i])
+			return false;
+	}
+    return true;
+}
+
+void Swap(string &s,int a,int b)
+{
+	string t;
+	t+=s[a];
+	s[a]=s[b];
+	s[b]=t[0];
+}
+
+void Arrange(string a[],string s,int lock)
+{
+	if(lock==s.size())
+		a[N++]=s;
+	//结束递归条件
+	for(int i=lock;i<s.size();i++)
+	{
+		Swap(s,lock,i);
+		//用交换的思想
+		Arrange(a,s,lock+1);
+		//交换完后固定该位，递归解决后面的
+		Swap(s,lock,i);
+		//恢复原来顺序
+	}
+}
+
+int main()
+{
+	string s,a[Maxsize];
+
+	cin>>s;
+	N=0;
+	
+	Arrange(a,s,0);
+
+	sort(a,a+N,Cmp);
+    
+	for(int i=0;i<N;i++)
+    	cout<<a[i]<<endl;
+    cout<<endl;
+    
+	return 0;
+}
