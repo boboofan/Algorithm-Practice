@@ -1,0 +1,28 @@
+Problem：https://www.nowcoder.net/practice/5b80ab166efa4551844657603227caeb?tpId=40&tqId=21378&tPage=3&rp=3&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+using namespace std;
+
+int Up(int n)
+{
+	if(n%2==1)
+		n-=1;
+	return n/2;
+}
+
+int main()
+{
+	int x,y;
+	while(cin>>x>>y)
+	{
+		while(x!=y)
+		{
+			if(x>y)
+				x=Up(x);
+			else
+				y=Up(y);
+		}
+		cout<<x<<endl;
+	}
+	return 0;
+}
