@@ -1,0 +1,19 @@
+Problem：https://www.nowcoder.net/practice/4b733a850c364c32b368555c8c2ec96b?tpId=40&tqId=21341&tPage=1&rp=1&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<iomanip>
+#include<math.h>
+using namespace std;
+
+int main()
+{
+	double r,v,x0,y0,z0,x1,y1,z1;
+	while(cin>>x0>>y0>>z0>>x1>>y1>>z1)
+	{
+		r=sqrt(pow((x1-x0),2)+pow((y1-y0),2)+pow((z1-z0),2));
+		v=(4.0/3)*acos(-1)*pow(r,3);
+		cout<<setiosflags(ios::fixed)<<setprecision(3)<<r<<" ";
+		cout<<setiosflags(ios::fixed)<<setprecision(3)<<v<<endl;
+	}
+	return 0;
+}
