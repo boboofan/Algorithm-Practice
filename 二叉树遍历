@@ -1,0 +1,69 @@
+ProBlem：https://www.nowcoder.net/practice/4b91205483694f449f94c179883c1fef?tpId=40&tqId=21342&tPage=1&rp=1&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+int n;
+
+typedef struct Tnode *PtrToTnode;
+struct Tnode {
+	char c;
+	PtrToTnode left, right;
+};
+typedef PtrToTnode Tree;
+
+
+PtrToTnode NewTnode(char c)
+{
+	if (c == '#')
+		return NULL;
+	PtrToTnode n = new struct Tnode;
+	n->c = c;
+	n->left = n->right = NULL;
+	return n;
+}
+
+Tree BuildTree(string s)
+{
+	Tree t = NewTnode(s[n++]);
+	if (t)
+	{
+		t->left = BuildTree(s);
+		t->right = BuildTree(s);
+	}
+	return t;
+}
+
+void InOrder(Tree t)
+{
+	if (t)
+	{
+		InOrder(t->left);
+		cout << t->c << " ";
+		InOrder(t->right);
+	}
+}
+
+void Destroy(Tree t)
+{
+	if (t)
+	{
+		Destroy(t->left);
+		Destroy(t->right);
+		delete(t);
+	}
+}
+
+int main()
+{
+	string s;
+	while (cin >> s)
+	{
+		n = 0;
+		Tree t = BuildTree(s);
+		InOrder(t);
+		Destroy(t);
+	}
+	return 0;
+}
