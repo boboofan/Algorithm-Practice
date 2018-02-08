@@ -1,0 +1,36 @@
+Problem：https://www.nowcoder.net/practice/a2a1d0266629404fba582d416d84b6a0?tpId=40&tqId=21392&tPage=3&rp=3&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+using namespace std;
+
+int Min(int a,int b)
+{
+	return (a<b)?a:b;
+}
+
+int Deal(int M,int N,int max)
+//每个位置放的数量都不大于前一个位置的数量，max为前一个位置的苹果数
+{
+	if(N==1)
+	{
+		if(M>max)   //只剩一个位置并且数量比前一个位置数量多，则该分法失败
+			return 0;
+		else
+			return 1;
+	}
+	else
+	{
+		int i,count=0;
+		for(i=Min(M,max);i>=0;i--)
+			count+=Deal(M-i,N-1,i);
+		return count;
+	}
+}
+
+int main()
+{
+	int M,N;
+	while(cin>>M>>N)
+		cout<<Deal(M,N,M)<<endl;
+	return 0;
+}
