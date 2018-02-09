@@ -1,0 +1,30 @@
+Problem：https://www.nowcoder.net/practice/a4b46b53773e4a8db60b5f7629ce03e9?tpId=40&tqId=21393&tPage=4&rp=4&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+using namespace std;
+
+int Judge(int N,int K)
+{
+	int year,wage,price;
+	for(year=1,wage=N,price=200;year<=21;year++)
+	{
+		if(wage>=price)
+			return year;
+		wage+=N;
+		price*=(1+0.01*K);
+	}
+	return 0;
+}
+
+int main()
+{
+	int N,K;
+	while(cin>>N>>K)
+	{
+		if(Judge(N,K))
+			cout<<Judge(N,K)<<endl;
+		else
+			cout<<"Impossible"<<endl;
+	}
+	return 0;
+}
