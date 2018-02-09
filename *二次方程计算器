@@ -1,0 +1,111 @@
+Problem：https://www.nowcoder.net/practice/071f1acaada4477f94193f8c0b9054f4?tpId=40&tqId=21423&tPage=5&rp=5&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<iomanip>
+#include<string>
+#include<math.h>
+using namespace std;
+
+int GetCo(string s, int &co)
+{
+	if (s.empty())
+		return 0;
+
+	co = 0;
+
+	if (s.size() >= 3 && s[s.size() - 3] == 'x')			//x的平方项
+	{
+		if (s.size() == 3)
+			co = 1;
+		else
+			for (int m = 0, i = s.size() - 4; i >= 0; m += 1, i--)
+				co += (s[i] - 48)*pow(10, m);
+		return 1;
+	}
+
+	else if (s[s.size() - 1] == 'x')		//x的一次方
+	{
+		if (s.size() == 1)
+			co = 1;
+		else
+			for (int m = 0, i = s.size() - 2; i >= 0; m += 1, i--)
+				co += (s[i] - 48)*pow(10, m);
+		return 2;
+	}
+
+	else		//常数项
+	{
+		for (int m = 0, i = s.size() - 1; i >= 0; m += 1, i--)
+			co += (s[i] - 48)*pow(10, m);
+		return 3;
+	}
+}
+
+void Print(double a, double b, double c)
+{
+	double delta, m, n;
+	delta = pow(b, 2) - 4 * a*c;
+	n = -b / (2 * a);
+
+	if (delta<0)
+		cout << "No Solution" << endl;
+	else if (delta == 0)
+		cout << setiosflags(ios::fixed) << setprecision(2) << n << endl;
+	else
+	{
+		m = sqrt(delta / (4 * pow(a, 2)));
+		if (n - m == 0)
+			cout << "-";
+		cout << setiosflags(ios::fixed) << setprecision(2) << n - m << " ";
+		if (n + m == 0)
+			cout << "-";
+		cout << setiosflags(ios::fixed) << setprecision(2) << n + m << endl;
+	}
+}
+
+int main()
+{
+	int a, b, c, i, p, co, flag1, flag2;		//flag1表示加减，flag2表示等号的左右，co表示系数
+	string s, t;
+	cin >> s;
+
+	for (a = b = c = i = flag1 = flag2 = 0; i<s.size(); i++)
+	{
+		if (s[i] == '+' || s[i] == '-' || s[i] == '=' || i == s.size() - 1)
+		{
+			if (i == s.size() - 1)
+				t += s[i];
+
+			p = GetCo(t, co);
+			if ((flag1 == 1 && flag2 == 0) || (flag1 == 0 && flag2 == 1))
+				co = -co;
+
+			if (p == 1)
+				a += co;
+			if (p == 2)
+				b += co;
+			if (p == 3)
+				c += co;
+
+			if (s[i] == '+')
+				flag1 = 0;
+			if (s[i] == '-')
+				flag1 = 1;
+			if (s[i] == '=')
+			{
+				flag1 = 0;
+				flag2 = 1;
+			}
+
+			t = "";
+		}
+
+		else
+			t += s[i];
+	}
+
+	Print((double)a, (double)b, (double)c);
+
+	system("pause");
+	return 0;
+}
