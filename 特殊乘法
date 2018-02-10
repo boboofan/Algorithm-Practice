@@ -1,0 +1,29 @@
+Problem：https://www.nowcoder.net/practice/a5edebf0622045468436c74c3a34240f?tpId=40&tqId=21349&tPage=1&rp=1&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+using namespace std;
+
+int Detach(int a[],int m)
+{
+	int i=0;
+	while(m!=0)
+	{
+		a[i++]=m%10;
+		m/=10;
+	}
+	return i;
+}
+
+int main()
+{
+	long m,n,sum=0;
+	int i,j,a[10],b[10],N1,N2;
+	cin>>m>>n;
+	N1=Detach(a,m);
+	N2=Detach(b,n);
+	for(i=0;i<N1;i++)
+		for(j=0;j<N2;j++)
+			sum+=(a[i]*b[j]);
+	cout<<sum<<endl;
+	return 0;
+}
