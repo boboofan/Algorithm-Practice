@@ -1,0 +1,48 @@
+Problem：https://www.nowcoder.net/practice/c66df29f6c1c4dbba0bd51619210e082?tpId=40&tqId=21498&tPage=1&rp=1&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#define Maxsize 100000
+using namespace std;
+
+void Add(int &n1,int n2,int sum[],int num[])
+{
+	int i,s,carry;
+
+	for(i=carry=0;i<n2;i++)
+	{
+		s=(sum[i]+num[i]+carry)%10;
+		carry=(sum[i]+num[i]+carry)/10;
+		sum[i]=s;
+	}
+
+	while(carry)
+	{
+		s=(sum[i]+carry)%10;
+		carry=(sum[i]+carry)/10;
+		sum[i++]=s;
+	}
+
+	if(n1<i)
+		n1=i;
+}
+
+int main()
+{
+	int i,a,n,n1,n2,sum[Maxsize],num[Maxsize];
+
+	for(i=0;i<Maxsize;i++)
+		sum[i]=0;
+
+	cin>>a>>n;
+
+	for(n1=n2=1;n2<=n;n2++)
+	{
+		num[n2-1]=a;
+		Add(n1,n2,sum,num);
+	}
+
+	for(i=n1-1;i>=0;i--)
+		cout<<sum[i];
+
+	return 0;
+}
