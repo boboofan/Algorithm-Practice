@@ -63,8 +63,7 @@ int main()
 
 	input.close();
 
-	for (i = 0; i < N; i++)
-  //对于每个顶点，都将其删去，并看其是否符合条件
+	for (i = 0; i < N; i++)		//对于每个顶点，都将其删去，并看其是否符合条件
 	{
 		n = IsKeyNode(graph, flag, N, i);   //若不符合条件则返回0
 		if (n)
