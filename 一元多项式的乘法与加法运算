@@ -1,0 +1,85 @@
+Problem：https://pintia.cn/problem-sets/15/problems/710
+
+#include<iostream>
+#include<stack>
+#define Maxsize 10000
+using namespace std;
+
+typedef struct Anode *Array;
+struct Anode{
+	int co,in;
+};
+
+void Multiply(Array a1,Array a2,int N1,int N2,int mul[])
+{
+	int i,j,co,in;
+	for(i=0;i<N1;i++)
+	{
+		for(j=0;j<N2;j++)
+		{
+			co=a1[i].co*a2[j].co;
+			in=a1[i].in+a2[j].in;
+			mul[in+2000]+=co;
+		}
+	}
+}
+
+void Print(int a[])
+{
+	stack<int>s;
+
+	for(int i=0;i<Maxsize;i++)
+	{
+		if(a[i])
+		{	
+			s.push(i-2000);
+			s.push(a[i]);
+		}
+	
+	}
+	
+	if(s.empty())
+		cout<<"0 0"<<endl;
+	else
+	{
+		while(s.size()>1)
+		{
+			cout<<s.top()<<" ";
+			s.pop();
+		}
+		cout<<s.top()<<endl;
+	}
+}
+
+int main()
+{
+	int i,N1,N2,mul[Maxsize],add[Maxsize];
+	
+	for(i=0;i<Maxsize;i++)
+		mul[i]=add[i]=0;
+
+	cin>>N1;
+	Array a1=new struct Anode[N1];
+	for(i=0;i<N1;i++)
+	{	
+		cin>>a1[i].co>>a1[i].in;
+		add[a1[i].in+2000]+=a1[i].co;
+	}
+
+	cin>>N2;
+	Array a2=new struct Anode[N2];
+	for(i=0;i<N2;i++)
+	{
+		cin>>a2[i].co>>a2[i].in;
+		add[a2[i].in+2000]+=a2[i].co;
+	}
+	
+	Multiply(a1,a2,N1,N2,mul);
+
+	Print(mul);
+	Print(add);
+
+	delete(a1);
+	delete(a2);
+	return 0;
+}
