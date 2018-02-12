@@ -1,0 +1,21 @@
+Problem：https://pintia.cn/problem-sets/15/problems/709
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+	int n,N,count=0,max=0;
+	cin>>N;
+	while(N--)
+	{
+		cin>>n;
+		count+=n;
+		if(count<0)
+			count=0;
+		else if(count>max)
+			max=count;
+	}
+	cout<<max<<endl;
+	return 0;
+}
