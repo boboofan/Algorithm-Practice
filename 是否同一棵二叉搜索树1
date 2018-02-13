@@ -1,0 +1,61 @@
+Problem：https://pintia.cn/problem-sets/15/problems/712
+
+//用数组存放排序树
+
+#include<iostream>
+#define Maxsize 2048
+using namespace std;
+
+void BuildTree(int a[],int N)
+{
+	int i,n;
+
+	for(i=0;i<Maxsize;i++)
+			a[i]=0;
+	
+	while(N--)
+	{		
+		i=0;
+		cin>>n;
+		while(a[i]!=0)
+		{
+			if(n<a[i])
+				i=i*2+1;
+			else
+				i=i*2+2;
+		}
+		a[i]=n;
+	}
+}
+
+bool IsSame(int a[],int t[])
+{
+	for(int i=0;i<Maxsize;i++)
+		if(a[i]!=t[i])
+			return false;
+	return true;
+}
+
+int main()
+{
+	int N,L,a[Maxsize],t[Maxsize];
+	while(cin>>N)
+	{
+		if(N==0)
+			break;
+		else
+			cin>>L;
+
+		BuildTree(a,N);
+
+		while(L--)
+		{
+			BuildTree(t,N);
+			if(IsSame(a,t))
+				cout<<"Yes"<<endl;
+			else
+				cout<<"No"<<endl;
+		}
+	}
+	return 0;
+}
