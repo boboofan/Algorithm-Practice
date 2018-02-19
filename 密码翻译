@@ -1,0 +1,24 @@
+https://www.nowcoder.com/practice/136de4a719954361a8e9e41c8c4ad855?tpId=40&tqId=21364&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+int main()
+{
+	int i,N;
+	char c[80];
+	while(gets(c))
+	{
+		N=strlen(c);
+		for(i=0;i<N;i++)
+		{
+			if(('a'<=c[i]&&c[i]<='y')||('A'<=c[i]&&c[i]<='Y'))
+				c[i]++;
+			else if(c[i]=='z'||c[i]=='Z')
+				c[i]-=25;
+		}
+		cout<<c<<endl;
+	}
+	return 0;
+}
