@@ -1,0 +1,102 @@
+Problem：https://pintia.cn/problem-sets/16/problems/683
+
+
+#include<iostream>
+#include<queue>
+#define Maxsize 100
+using namespace std;
+
+typedef struct Tnode{
+	int N,child[Maxsize];   //N是该节点孩子的个数，child[]存放该节点的每个孩子
+};
+
+void BuildTree(struct Tnode t[],int N)
+{
+	int i,j,M;
+	
+	for(i=1;i<=N;i++)
+		t[i].N=0;   //初始化每个节点
+
+	cin>>M;
+	while(M--)
+	{
+		cin>>i;
+
+		cin>>t[i].N;    //输入该节点孩子的个数
+
+		for(j=0;j<t[i].N;j++)
+			cin>>t[i].child[j];   //输入该节点的每个孩子
+	}
+}
+
+void Print(struct Tnode t[])
+{
+	int i,n,count;
+	queue<int>a,b,c;    //a,b用来交替存放每一层的节点，类似于层序遍历，c用来存放每一层的叶节点数量，用于输出
+
+	a.push(1);    //将根节点入队
+
+	while(!a.empty()||!b.empty())
+	{
+		count=0;
+
+		if(!a.empty())
+		{
+			while(!a.empty())   //遍历该层所有节点
+			{
+				n=a.front();
+
+				if(t[n].N==0)   //如果孩子数为0则为叶节点
+					count++;
+				else
+					for(i=0;i<t[n].N;i++)
+						b.push(t[n].child[i]);    //将所有孩子入队用于下一层的遍历
+
+				a.pop();
+			}
+		}
+		else
+		{
+			while(!b.empty())
+			{
+				n=b.front();
+
+				if(t[n].N==0)
+					count++;
+				else
+					for(i=0;i<t[n].N;i++)
+						a.push(t[n].child[i]);
+
+				b.pop();
+			}
+		}
+
+		c.push(count);
+	}
+
+	while(c.size()>1)   //输出每层的叶节点数量
+	{
+		cout<<c.front()<<" ";
+		c.pop();
+	}
+	cout<<c.front()<<endl;
+}
+
+int main()
+{
+	int N;
+	struct Tnode t[Maxsize];    //使用数组存放树的每个节点
+
+	cin>>N;
+
+	while(N!=0)
+	{
+		BuildTree(t,N);
+
+		Print(t);
+
+		cin>>N;
+	}
+
+	return 0;
+}
