@@ -1,0 +1,49 @@
+1.一个字符数组直接在程序中定义 {a,b,c,d,e,f,g,h,i,j}，求出所有5个字符的组合序列，如果字母组合一样，顺序不同，只用输出一次。结果输出到output_1.txt中。
+
+#include<iostream>
+#include<fstream>
+#include<string.h>
+using namespace std;
+
+void FileOut(char a[])
+{
+	ofstream ofile;
+	ofile.open("D://360data//重要数据//桌面//output1.txt", ios::app);
+
+	for (int i = 0; i<5; i++)
+	{
+		ofile << a[i];
+		if (i<4)
+			ofile << ",";
+		else
+			ofile << endl;
+	}
+
+	ofile.close();
+}
+
+void Print(char c[], char a[], int N, int m, int n)
+{
+	if (n == 5)
+	{
+		FileOut (a);
+		return;
+	}
+
+	if (m >= N)
+		return;
+
+	Print(c, a, N, m + 1, n);
+
+	a[n] = c[m];
+	Print(c, a, N, m + 1, n + 1);
+}
+
+int main()
+{
+	char a[5], c[] = { 'a','b','c','d','e','f','g','h','i','j' };
+  
+	Print(c, a, 10, 0, 0);
+  
+	return 0;
+}
