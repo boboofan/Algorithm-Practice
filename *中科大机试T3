@@ -1,0 +1,92 @@
+给定一颗二叉树的前序遍历和后序遍历，给出一种可能的中序遍历结果。
+输入文件为input4。第一行是前序遍历，第二行是后序遍历。二叉树的节点一大写字母表示，最多26个节点。
+
+#include<iostream>
+#include<fstream>
+#include<queue>
+#define Maxsize 52
+using namespace std;
+
+queue<char>q;
+
+int Input(char pre[], char post[])
+{
+	int i, j;
+	char t[Maxsize];
+
+	ifstream infile;
+	infile.open("D://360data//重要数据//桌面//input4.txt", ios::in);
+
+	infile.getline(t, Maxsize);
+	for (i = j = 0; i<strlen(t); i++)
+		if ('A' <= t[i] && t[i] <= 'Z')
+			pre[j++] = t[i];
+
+	infile.getline(t, Maxsize);
+	infile.close();
+	for (i = j = 0; i<strlen(t); i++)
+		if ('A' <= t[i] && t[i] <= 'Z')
+			post[j++] = t[i];
+
+	return j;
+}
+
+void InOrder(char pre[], char post[], int low1, int low2, int high2)    //low1用于pre[]中，low2和high2用于post[]中
+{
+	if (low2>high2)
+		return;
+
+	int i, root, len;   //root是左子树的根节点，len是左子树的长度
+
+	if (low2 != high2)
+	{
+		for (i = low2; i<high2; i++)
+		{
+			if (pre[low1 + 1] == post[i])
+			{
+				root = i;
+				break;
+			}
+		}
+
+		len = root - low2 + 1;
+
+		InOrder(pre, post, low1 + 1, low2, root);
+	}
+
+	q.push(pre[low1]);
+
+	if (low2 != high2)
+		InOrder(pre, post, low1 + len + 1, root + 1, high2 - 1);
+}
+
+void OutPut()
+{
+	ofstream ofile;
+	ofile.open("D://360data//重要数据//桌面//output4.txt", ios::out);
+
+	ofile << "一种可能的中序遍历的结果为：";
+
+	while (q.size()>1)
+	{
+		ofile << q.front() << " ";
+		q.pop();
+	}
+	ofile << q.front();
+
+	ofile.close();
+}
+
+int main()
+{
+	int N;
+	char pre[26], post[26];
+
+	N = Input(pre, post);
+
+	InOrder(pre, post, 0, 0, N - 1);
+
+	OutPut();
+
+	return 0;
+}
