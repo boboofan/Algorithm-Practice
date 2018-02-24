@@ -7,7 +7,6 @@
 //若相等则返回二者的乘积，否则返回二者之和
 void func1(int *a,int *b,int *c){
 	c=(int*)malloc(sizeof(int));
-	if(c==NULL) exit(1);
 	scanf("%d",&a);
 	if(*a=*b)
 		*c=(*a)*(*b);
