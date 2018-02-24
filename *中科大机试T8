@@ -1,0 +1,57 @@
+在0-50之间随机产生2个数，随机产生运算‘+’或‘-’，
+从屏幕输入这个运算的结果，两次机会，第一次答对得10分，第二次5分，做10道，最后结果输出到屏幕。
+
+
+#include<iostream>
+#include<windows.h>
+using namespace std;
+
+bool Calculate(int a,int b,int flag)
+{
+	int c;
+	if(flag==0)
+	{
+		cout<<a<<"+"<<b<<"="<<endl;
+		cin>>c;
+		if(c==a+b)
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		cout<<a<<"-"<<b<<"="<<endl;
+		cin>>c;
+		if(c==a-b)
+			return true;
+		else
+			return false;
+	}
+}
+
+int main()
+{
+	int a,b,flag,score=0,N=10;
+	SYSTEMTIME sys;
+	while(N--)
+	{
+		GetLocalTime(&sys);
+		a=sys.wMilliseconds%51;
+
+		GetLocalTime(&sys);
+		b=sys.wSecond%51;
+
+		GetLocalTime(&sys);
+		if(sys.wMilliseconds%2==0)
+			flag=0;
+		else
+			flag=1;
+		
+		if(Calculate(a,b,flag))
+			score+=10;
+		else if(Calculate(a,b,flag))
+			score+=5;
+	}
+	cout<<score<<endl;
+	return 0;
+}
