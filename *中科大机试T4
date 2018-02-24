@@ -5,3 +5,48 @@
 在屏幕上输出红包分配结果，如：
 Input：100 5
 Output：10.1 20 30.2 9.9 29.8
+
+#include<iostream>
+#include<time.h>
+using namespace std;
+
+int main()
+{
+	double t;
+	int i,X,N,*a,ran;
+
+	cin>>t>>N;
+	while(t*100<N)
+	{
+		cout<<"请重新输入"<<endl;
+		cin>>t>>N;
+	}
+
+	a=new int[N];
+	for(i=0;i<N;i++)
+		a[i]=1;
+	X=t*100-N;
+
+	for(i=0;i<N;i++)
+	{
+		if(X==0)
+			break;
+		
+		srand((unsigned)time(NULL));
+		ran=rand()%X;
+		a[i]+=ran;
+		X-=ran;
+	}
+
+	
+	srand((unsigned)time(NULL));
+	if(X!=0)
+		a[rand()%N]+=X;
+
+	for(i=0;i<N;i++)
+		cout<<((double)a[i])/100<<endl;
+
+	delete(a);
+
+	return 0;
+}
