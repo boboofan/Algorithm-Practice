@@ -1,0 +1,51 @@
+从键盘输入一个有序的正整数序列，请计算该序列中包含的最长等差子序列的长度，如：
+Input：
+1 2 3 5 7 8 14 20 26
+Output：
+5
+
+
+Code1:
+
+#include<iostream>
+#define Maxsize 99999
+using namespace std;
+
+int GetLen(int a[],int N,int s,int i)
+{
+	int j,count=2;
+	for(j=i+1;j<N;j++)
+	{
+		if(a[j]-a[i]==s)
+		{
+			count++;
+			i=j;
+		}
+	}
+	return count;
+}
+
+int main()
+{
+	int i,j,l,max=1,N=0,a[Maxsize];
+	while(cin>>a[N++]);
+	
+	if(N==1)
+		max=1;
+	else
+	{
+		for(i=0;i<N-1;i++)
+		{
+			for(j=i+1;j<N;j++)
+			{
+				l=GetLen(a,N,a[j]-a[i],j);
+				if(l>max)
+					max=l;
+			}
+		}
+	}
+	
+	cout<<max<<endl;
+
+	return 0;
+}
