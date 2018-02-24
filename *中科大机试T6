@@ -1,0 +1,45 @@
+从文本文件input.txt中输入一行字符串（长度小于等于1000），由若干个英文单词组成，单词之间有一个或若干空格分割
+请将该字符串之间的多余空格删除，首尾的空格也删除，并将所有单词首字母大写后输出到屏幕
+Input：
+ i  am  very    nervous today   since  i          will attend the C programming 
+Output：
+I Am Very Nervous Today Since I Will Attend The C Programming
+
+
+
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<queue>
+using namespace std;
+
+void Print(string s)
+{
+	if('a'<=s[0]&&s[0]<='z')
+		s[0]-=32;
+	cout<<s;
+}
+
+int main()
+{
+	string s;
+	queue<string>q;
+
+	ifstream ifile;
+	ifile.open("D://360data//重要数据//桌面//input.txt",ios::in);
+	
+	while(ifile>>s)
+		q.push(s);
+
+	ifile.close();
+
+	while(q.size()>1)
+	{
+		Print(q.front());
+		cout<<" ";
+		q.pop();
+	}
+	Print(q.front());
+
+	return 0;
+}
