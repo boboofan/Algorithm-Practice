@@ -1,0 +1,70 @@
+Problem：https://pintia.cn/problem-sets/15/problems/717
+
+#include<iostream>
+#include<queue>
+#define Maxsize 500
+using namespace std;
+
+struct Gnode{
+	int len,price;
+}Graph[Maxsize][Maxsize];
+
+
+int main()
+{
+	int i,j,v,len,pri,N,M,S,D,dist[Maxsize],price[Maxsize];
+	queue<int>q;
+
+	cin>>N>>M>>S>>D;
+
+	for(i=0;i<N;i++)
+	{	
+		dist[i]=price[i]=-1;
+		for(j=i;j<N;j++)
+			Graph[i][j].len=Graph[j][i].len=Graph[i][j].price=Graph[j][i].price=-1;
+	}
+	dist[S]=price[S]=0;
+
+	while(M--)
+	{
+		cin>>i>>j>>len>>pri;
+    
+		Graph[i][j].len=Graph[j][i].len=len;
+		Graph[i][j].price=Graph[j][i].price=pri;
+	}
+
+	q.push(S);
+
+	while(!q.empty())
+	{
+		v=q.front();
+		q.pop();
+
+		for(i=0;i<N;i++)
+		{
+			if(Graph[v][i].len!=-1)
+			{
+				if(dist[i]==-1)
+				{
+					dist[i]=dist[v]+Graph[v][i].len;
+					price[i]=price[v]+Graph[v][i].price;
+					q.push(i);
+				}
+        
+				else if(dist[i]>dist[v]+Graph[v][i].len)
+				{
+					dist[i]=dist[v]+Graph[v][i].len;
+					price[i]=price[v]+Graph[v][i].price;
+				}
+        
+				else if(dist[i]==dist[v]+Graph[v][i].len&&price[i]>price[v]+Graph[v][i].price)
+					price[i]=price[v]+Graph[v][i].price;
+			}
+		}
+
+	}
+	
+	cout<<dist[D]<<" "<<price[D]<<endl;
+
+	return 0;
+}
