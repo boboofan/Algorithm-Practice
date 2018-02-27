@@ -1,0 +1,71 @@
+Problem：https://pintia.cn/problem-sets/16/problems/672
+//使用clang++编译器
+
+
+#include<stdio.h>
+#include<math.h>
+#define Maxsize 100
+
+struct Node{
+	int x,y,tag;
+}Coordinate[Maxsize];
+
+bool IsNear(int x1,int y1,int x2,int y2,int D)
+{
+	return sqrt(pow(x1-x2,2)+pow(y1-y2,2))<=D;
+}
+
+bool CanReachBank(int x,int y,int D)
+{
+	if(x+D>=50)
+		return true;
+	if(y+D>=50)
+		return true;
+	if(x-D<=-50)
+		return true;
+	if(y-D<=-50)
+		return true;
+	return false;
+}
+
+bool CanEscape(int n,int N,int D)
+{
+	if(CanReachBank(Coordinate[n].x,Coordinate[n].y,D))
+		return true;
+
+	Coordinate[n].tag=1;
+	for(int i=0;i<N;i++)
+		if(!Coordinate[i].tag&&IsNear(Coordinate[n].x,Coordinate[n].y,Coordinate[i].x,Coordinate[i].y,D))
+			if(CanEscape(i,N,D))
+				return true;
+	return false;
+}
+
+int main()
+{
+	int i,N,D;
+	scanf("%d%d",&N,&D);
+
+	for(i=0;i<N;i++)
+	{
+		scanf("%d%d",&Coordinate[i].x,&Coordinate[i].y);
+		Coordinate[i].tag=0;
+	}
+
+	for(i=0;i<N;i++)
+	{
+		if(!Coordinate[i].tag&&IsNear(0,0,Coordinate[i].x,Coordinate[i].y,D+15))
+		{
+			if(CanEscape(i,N,D))
+			{	
+				printf("Yes\n");
+				break;
+			}
+		}
+	}
+
+	if(i==N)
+		printf("No\n");
+	
+	return 0;
+}
