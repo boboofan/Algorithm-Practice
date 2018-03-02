@@ -1,0 +1,52 @@
+Problem：https://pintia.cn/problem-sets/15/problems/716
+
+#include<iostream>
+#define Maxsize 100
+#define Infinite 100000
+using namespace std;
+
+int main()
+{
+	int i,j,k,n,min,N,M,graph[Maxsize][Maxsize],max[Maxsize];
+	cin>>N>>M;
+
+	for(i=0;i<N;i++)
+	{	
+		max[i]=graph[i][i]=0;
+		for(j=i+1;j<N;j++)
+			graph[i][j]=graph[j][i]=Infinite;
+	}
+
+	while(M--)
+	{
+		cin>>i>>j>>n;
+		i--,j--;
+		graph[i][j]=graph[j][i]=n;
+	}
+
+	for(k=0;k<N;k++)
+		for(i=0;i<N;i++)
+			for(j=0;j<N;j++)
+				if(graph[i][j]>graph[i][k]+graph[k][j])
+					graph[i][j]=graph[i][k]+graph[k][j];
+
+	for(i=0;i<N;i++)
+		for(j=0;j<N;j++)
+			if(graph[i][j]>max[i])
+				max[i]=graph[i][j];
+
+	for(i=0,min=Infinite;i<N;i++)
+	{	
+	  if(max[i]<min)
+		{
+			min=max[i];
+			n=i+1;
+		}
+	}
+
+	if(min==Infinite)
+		cout<<0<<endl;
+	else
+		cout<<n<<" "<<min<<endl;
+	return 0;
+}
