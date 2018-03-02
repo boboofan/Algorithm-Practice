@@ -1,0 +1,100 @@
+Problem：https://www.nowcoder.com/practice/b42cfd38923c4b72bde19b795e78bcb3?tpId=40&tqId=21555&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+using namespace std;
+
+typedef struct Tnode *Tree;
+struct Tnode{
+	int n;
+	Tree left,right;
+};
+
+void Insert(Tree t)
+{
+	int n;
+	cin>>n;
+
+	while(1)
+	{
+		if(n==t->n)
+			return;
+		else if(n<t->n&&t->left)
+			t=t->left;
+		else if(n>t->n&&t->right)
+			t=t->right;
+		else
+		{
+			Tree p=new struct Tnode;
+			p->n=n;
+			p->left=p->right=NULL;
+
+			if(n<t->n)
+				t->left=p;
+			else
+				t->right=p;
+
+			return;
+		}
+	}
+}
+
+void PreOrder(Tree t)
+{
+	if(!t)
+		return;
+
+	cout<<t->n<<" ";
+	PreOrder(t->left);
+	PreOrder(t->right);
+}
+
+void InOrder(Tree t)
+{
+	if(!t)
+		return;
+
+	InOrder(t->left);
+	cout<<t->n<<" ";
+	InOrder(t->right);
+}
+
+void PostOrder(Tree t)
+{
+	if(!t)
+		return;
+
+	PostOrder(t->left);
+	PostOrder(t->right);
+	cout<<t->n<<" ";
+}
+
+void Destroy(Tree t)
+{
+  //略
+}
+
+int main()
+{
+	int N;
+	while(cin>>N)
+  {
+	  Tree t=new struct Tnode;
+  	cin>>t->n;
+  	t->left=t->right=NULL;
+	
+  	while(--N)
+	  	Insert(t);
+
+	  PreOrder(t);
+	  cout<<endl;
+
+	  InOrder(t);
+	  cout<<endl;
+
+	  PostOrder(t);
+	  cout<<endl;
+    
+    Destroy(t);
+   }
+	return 0;
+}
