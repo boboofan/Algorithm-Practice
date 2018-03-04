@@ -1,0 +1,62 @@
+Problem：https://www.nowcoder.com/practice/b744af632ac4499aa485d7bb048bb0aa?tpId=40&tqId=21556&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<algorithm>
+#include<string>
+#include<string.h>
+using namespace std;
+
+void Input(string s[],int n)
+{
+	int i,tag,N;
+	char c[1000];
+
+	gets(c);
+	N=strlen(c);
+
+	for(i=tag=0;i<N;i++)
+	{
+		if(c[i]!=48)
+			tag=1;
+
+		if(tag==1)
+			s[n]+=c[i];
+	}
+}
+
+bool Cmp(string a,string b)
+{
+	if(a.size()<b.size())
+		return true;
+	else if(a.size()>b.size())
+		return false;
+	else
+	{
+		for(int i=0;i<a.size();i++)
+		{
+			if(a[i]<b[i])
+				return true;
+			else if(a[i]>b[i])
+				return false;
+		}
+		return true;
+	}
+}
+
+int main()
+{
+	int i,N;
+	string s[100];
+
+	cin>>N;
+	getchar();
+	for(i=0;i<N;i++)
+		Input(s,i);
+
+	sort(s,s+N,Cmp);
+
+	for(i=0;i<N;i++)
+		cout<<s[i]<<endl;
+
+	return 0;
+}
