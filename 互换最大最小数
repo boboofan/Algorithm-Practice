@@ -1,0 +1,55 @@
+Problem：https://www.nowcoder.com/practice/04c0f21530994fbfa94887f1e3588e6a?tpId=40&tqId=21488&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+using namespace std;
+
+void Swap(int a[],int i,int j)
+{
+	int t=a[i];
+	a[i]=a[j];
+	a[j]=t;
+}
+
+int main()
+{
+	int i,N,max,min,maxi,mini,a[20];
+	while(cin>>N)
+	{
+		for(i=0;i<N;i++)
+		{
+			cin>>a[i];
+
+			if(i==0)
+			{
+				max=min=a[0];
+				maxi=mini=0;
+			}
+
+			else
+			{
+				if(a[i]>max)
+				{
+					max=a[i];
+					maxi=i;
+				}
+
+				if(a[i]<min)
+				{
+					min=a[i];
+					mini=i;
+				}
+			}
+		}
+	
+		Swap(a,maxi,mini);
+		
+		for(i=0;i<N;i++)
+		{
+			if(i==N-1)
+				cout<<a[i]<<endl;
+			else
+				cout<<a[i]<<" ";
+		}
+	}
+	return 0;
+}
