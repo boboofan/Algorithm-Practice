@@ -1,0 +1,50 @@
+Problem：https://www.nowcoder.com/practice/20426b85f7fc4ba8b0844cc04807fbd9?tpId=40&tqId=21338&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+bool IsPrime(long prime)
+{
+	long i,q;
+	for(i=2,q=sqrt(prime);i<=q;i++)
+		if(prime%i==0)
+			return false;
+	return true;
+}
+
+long GetPrime(long prime)
+{
+	while(1)
+	{
+		if(IsPrime(++prime))
+			return prime;
+	}
+}
+
+int main()
+{
+	long N,count,prime,s;
+	while(cin>>N)
+	{
+		count=0;
+		prime=1;
+		s=sqrt(N);
+		
+		while(N>1&&prime<=s)
+		{
+			prime=GetPrime(prime);
+			while(N>1&&N%prime==0)
+			{
+				N/=prime;
+				count++;
+			}
+		}
+
+		if(N!=1)
+			count++;
+
+		cout<<count<<endl;
+	}
+	return 0;
+}
