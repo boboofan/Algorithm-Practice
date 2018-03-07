@@ -1,0 +1,45 @@
+Problem：https://www.nowcoder.com/practice/0383714a1bb749499050d2e0610418b1?tpId=40&tqId=21333&tPage=1&rp=1&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<algorithm>
+#include<string>
+#define Maxsize 10000
+using namespace std;
+
+typedef struct Node{
+	string name;
+	int score;
+};
+
+bool Cmp0(struct Node a,struct Node b)
+{
+	return a.score>b.score;
+}
+
+bool Cmp1(struct Node a,struct Node b)
+{
+	return a.score<b.score;
+}
+
+int main()
+{
+	int i,N,flag;
+	struct Node a[Maxsize];
+
+	while(cin>>N)
+	{
+		cin>>flag;
+		for(i=0;i<N;i++)
+			cin>>a[i].name>>a[i].score;
+		
+		if(flag==0)
+			sort(a,a+N,Cmp0);
+		else
+			sort(a,a+N,Cmp1);
+
+		for(i=0;i<N;i++)
+			cout<<a[i].name<<" "<<a[i].score<<endl;
+	}
+
+	return 0;
+}
