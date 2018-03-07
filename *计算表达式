@@ -1,0 +1,106 @@
+Problem：https://www.nowcoder.com/practice/7b18aa6b7cc14f8eaae6b8acdebf890b?tpId=40&tqId=21433&tPage=3&rp=3&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<string>
+#include<stack>
+#include<vector>
+using namespace std;
+
+int GetNum(stack<double>&t)
+{
+	double n = 0, m = 1;
+	while (!t.empty())
+	{
+		n += t.top()*m;
+		t.pop();
+		m *= 10;
+	}
+	return n;
+}
+
+void Input(string s, vector<double>&v, vector<char>&c)
+{
+	int i = 0;
+	stack<double>t;
+	while (i<s.size())
+	{
+		if (48 <= s[i] && s[i] <= 57)
+		{
+			while (48 <= s[i] && s[i] <= 57)
+				t.push(s[i++] - 48);
+			v.push_back(GetNum(t));
+		}
+		else
+			c.push_back(s[i++]);
+	}
+}
+
+int main()
+{
+	double i, j, n, t, p, tag;
+	string s;
+	vector<double>v;
+	vector<char>c;
+
+	while (cin >> s)
+	{
+
+		Input(s, v, c);
+
+		i = 1;
+		j = 0;
+		n = v[0];
+
+		while (j<c.size())
+		{
+			if (c[j] == '*')
+			{
+				n *= v[i++];
+				j++;
+			}
+
+			if (c[j] == '/')
+			{
+				n /= v[i++];
+				j++;
+			}
+
+			if (c[j] == '+' || c[j] == '-')
+			{
+				t = v[i++];
+
+				if (c[j] == '+')
+					tag = 0;
+				else
+					tag = 1;
+
+				j++;
+				if (j<c.size())
+				{
+					while (c[j] == '*' || c[j] == '/')
+					{
+						p = v[i++];
+
+						if (c[j] == '*')
+							t *= p;
+						if (c[j] == '/')
+							t /= p;
+
+						j++;
+						if (j >= c.size())
+							break;
+					}
+				}
+
+				if (tag == 0)
+					n += t;
+				else
+					n -= t;
+			}
+		}
+
+		cout << n << endl;
+	}
+
+	return 0;
+}
