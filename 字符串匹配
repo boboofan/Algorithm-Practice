@@ -1,0 +1,96 @@
+Problem：https://www.nowcoder.com/practice/fbdc522ef958455687654b38a4ca01e0?tpId=40&tqId=21518&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<string>
+#define Maxsize 1000
+using namespace std;
+
+int GetMatch(string m[])
+{
+	int i, j, N;
+	string t;
+	cin >> t;
+
+	for (i = N = 0; i<t.size(); i++)		//统计有多少种的匹配串
+	{
+		if (t[i] == '[')
+		{
+			while (t[++i] != ']')
+				N++;
+			break;
+		}
+	}
+
+	if (N == 0)		//只有一种
+	{
+		m[0] = t;
+		return 1;
+	}
+	else		//有N种匹配串，将N种匹配串分别放到m[]里
+	{
+		for (i = 0; i <= N; i++)
+		{
+			for (j = 0; j<t.size(); j++)
+			{
+				if (t[j] != '[')
+					m[i] += t[j];
+				else
+				{
+					m[i] += t[i + j+1];
+					j += N + 1;
+				}
+			}
+		}
+		return N;
+	}
+}
+
+bool IsMatch(char a, char b)
+{
+	if (a == b || a == b - 32 || a == b + 32)
+		return true;
+	return false;
+}
+
+bool Match(string s, string m)
+{
+	int i, j;
+	for (i = 0; i<=s.size() - m.size(); i++)
+	{
+		if (IsMatch(s[i], m[0]))
+		{
+			for (j = 1; j<m.size(); j++)
+				if (!IsMatch(s[i + j], m[j]))
+					return false;
+			if (j == m.size())
+				return true;
+		}
+	}
+	return false;
+}
+
+int main()
+{
+	int i, j, N, M;
+	string t, m[Maxsize], s[Maxsize];
+
+	cin >> N;
+	for (i = 0; i<N; i++)
+		cin >> s[i];
+
+	M = GetMatch(m);		//拆分匹配串到m[]里
+
+	for (i = 0; i<N; i++)		//对每一个待匹配的串进行匹配
+	{
+		for (j = 0; j<M; j++)		//用每一种匹配串来匹配，匹配到即换下一个待匹配的串
+		{
+			if (Match(s[i], m[j]))
+			{
+				cout << i + 1 << " " << s[i] << endl;
+				break;
+			}
+		}
+	}
+
+	return 0;
+}
