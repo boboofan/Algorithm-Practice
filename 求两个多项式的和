@@ -1,0 +1,50 @@
+Problem：https://www.nowcoder.com/practice/a9901ba9163549a590d1d1c245f14d2a?tpId=40&tqId=21534&tPage=1&rp=1&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<stack>
+#define Maxsize 3000
+#define Half 1500
+using namespace std;
+
+int main()
+{
+	int i,x,y,N,a[Maxsize];
+	stack<int>s;
+
+	for(i=0;i<Maxsize;i++)
+		a[i]=0;
+
+	cin>>N;
+	while(N--)
+	{
+		cin>>x>>y;
+		y+=Half;
+		a[y]=x;
+	}
+	cin>>N;
+	while(N--)
+	{
+		cin>>x>>y;
+		y+=Half;
+		a[y]+=x;
+	}
+
+	for(i=0;i<Maxsize;i++)
+		if(a[i])
+			s.push(i);
+
+	while(!s.empty())
+	{
+		i=s.top();
+		cout<<a[i]<<" ";
+
+		if(s.size()==1)
+			cout<<i-Half<<endl;
+		else
+			cout<<i-Half<<" ";
+
+		s.pop();
+	}
+
+	return 0;
+}
