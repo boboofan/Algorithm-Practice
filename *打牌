@@ -1,0 +1,63 @@
+Problem：https://www.nowcoder.com/practice/82442ee76977479e8ab4b88dfadfca9f?tpId=40&tqId=21525&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+bool Judge1(string a,char b,int c)    //5位以下的
+{
+	int i,count;
+	for(i=0;i<a.size();i++)
+	{
+		if(i==0)
+			count=0;
+		else if(a[i]!=a[i-1])
+			count=0;
+
+		if(a[i]>b)
+			count++;
+
+		if(count==c)
+			return true;
+	}
+	return false;
+}
+
+bool Judge2(string a,string b)    //5位的
+{
+	if(b[0]==5)
+		return false;
+
+	int i,j;
+	for(i=0;i<b.size();i++)   //把b全部加一用来匹配
+		b[i]++;
+
+	for(i=j=0;i<a.size();i++)   //如果a中匹配到b，则成功
+	{
+		if(a[i]==b[j])
+			j++;
+		if(j==5)
+			return true;
+	}
+
+	return Judge2(a,b);   //递归地去查找是否有更大的串
+}
+
+int main()
+{
+	bool flag;
+	string a,b;
+	while(cin>>a>>b)
+	{
+		if(b.size()<5)
+			flag=Judge1(a,b[0],b.size());
+		else
+			flag=Judge2(a,b);
+
+		if(flag)
+			cout<<"YES"<<endl;
+		else
+			cout<<"NO"<<endl;
+	}
+	return 0;
+}
