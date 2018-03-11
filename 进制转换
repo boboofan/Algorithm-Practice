@@ -1,0 +1,27 @@
+Problem：https://www.nowcoder.com/practice/deb19498bc644f53a6a99905ef5ee01d?tpId=40&tqId=21411&tPage=2&rp=2&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<string>
+#include<math.h>
+using namespace std;
+
+int Tran(char c)
+{
+	if(48<=c&&c<=57)
+		return c-48;
+	else
+		return c-55;
+}
+
+int main()
+{
+	long i,n,t;
+	string s;
+	while(cin>>s)
+	{
+		for(n=t=0,i=s.size()-1;i>1;i--)
+			n+=pow(16,t++)*Tran(s[i]);
+		cout<<n<<endl;
+	}
+	return 0;
+}
