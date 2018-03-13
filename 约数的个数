@@ -1,0 +1,40 @@
+Problem：https://www.nowcoder.com/practice/04c8a5ea209d41798d23b59f053fa4d6?tpId=40&tqId=21334&tPage=3&rp=3&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+void Output(long n)
+{
+
+	long i,m,count;
+
+	m=sqrt(n);
+
+	for(i=1,count=0;i<=m;i++)
+	{	
+		if(n%i==0)
+		{
+			if(i*i==n)
+				count+=1;
+			else
+				count+=2;
+		}
+	}
+
+	cout<<count<<endl;
+}
+
+int main()
+{
+	long n,N;
+	while(cin>>N)
+	{
+		while(N--)
+		{
+			cin>>n;
+			Output(n);
+		}
+	}
+	return 0;
+}
