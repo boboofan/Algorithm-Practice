@@ -1,0 +1,44 @@
+Problem：https://www.nowcoder.com/practice/e91982a145944ceab6bb9a4a508e0e26?tpId=40&tqId=21511&tPage=3&rp=3&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<stack>
+using namespace std;
+
+int main()
+{
+	int n,N;
+	char c;
+	stack<int>s;
+
+	while(cin>>N)
+	{
+		while(N--)
+		{
+			cin>>c;
+
+			if(c=='P')
+			{
+				cin>>n;
+				s.push(n);
+			}
+
+			if(c=='O'&&!s.empty())
+				s.pop();
+
+			if(c=='A')
+			{
+				if(s.empty())
+					cout<<"E"<<endl;
+				else
+					cout<<s.top()<<endl;
+			}
+		}
+
+		while(!s.empty())
+			s.pop();
+
+		cout<<endl;
+	}
+
+	return 0;
+}
