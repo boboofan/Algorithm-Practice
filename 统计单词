@@ -1,0 +1,48 @@
+Problem：https://www.nowcoder.com/practice/11c6e7c9987c4ab48f8cdd8834c27064?tpId=40&tqId=21537&tPage=4&rp=4&ru=/ta/kaoyan&qru=/ta/kaoyan/question-ranking
+
+#include<iostream>
+#include<string.h>
+#include<queue>
+using namespace std;
+
+int main()
+{
+	int i,N,tag,count;
+	char c[10000];
+	queue<int>q;
+
+	cin.getline(c,10000,'.');
+
+	N=strlen(c);
+
+	for(i=tag=count=0;i<N;i++)
+	{
+		if(tag)
+		{
+			if(c[i]!=32)
+				count++;
+			else
+			{
+				q.push(count);
+				tag=count=0;
+			}
+		}
+		else if(c[i]!=32)
+			tag=count=1;
+	}
+
+	if(count)
+		q.push(count);
+
+	while(!q.empty())
+	{
+		if(q.size()>1)
+			cout<<q.front()<<" ";
+		else
+			cout<<q.front()<<endl;
+
+		q.pop();
+	}
+
+	return 0;
+}
